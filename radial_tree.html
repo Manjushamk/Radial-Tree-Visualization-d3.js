@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+    <title>RADIAL NODE-LINK VISUALIZATION</title>
+    <style>
+	
+	.node {
+		cursor: pointer;
+	}
+	.node text {
+	  font: 8px sans-serif;
+	}
+
+	.link {
+	  fill: none;
+	  stroke: #ccc;
+	  stroke-width: 1.5px;
+	}
+	
+	.node circle {
+	  fill: pink;
+	  stroke: #BF3F3F;
+	  stroke-width: 1px;
+	}
+
+	
+    </style>
+
+  </head>
+
+  <body>
+
+	
+<script>
+
+var treeData = [
+  {
+    "name": "CS HOME PAGE",
+    "parent": "null",
+    "children": [
+      {
+        "name": "IUPUI Homepage Link",
+        "parent": "CS HOME PAGE"
+      },
+      {
+        "name": "School of Science Link",
+        "parent": "CS HOME PAGE"
+      },
+	  {
+        "name": "Search",
+        "parent": "CS HOME PAGE"
+      },
+	  {
+        "name": "About",
+        "parent": "CS HOME PAGE",
+		"children": [
+						{
+						"name": "Computer Science@IUPUI",
+						"parent": "About"
+						},
+						{
+						"name": "Message From the Chair",
+					    "parent": "About"
+						},
+						{
+					    "name": "Rankings & Awards",
+						"parent": "About"
+						},
+						{
+						"name": "Open Positions",
+						"parent": "About"
+						},
+						{
+						"name": "Visitor Info",
+						"parent": "About",
+						"children": [
+									{ "name": "campus",
+									  "parent": "Visitor Info"
+									},
+									{
+									  "name": "Indianpolis",
+									  "parent": "Visitor Info"
+									},
+									{
+									  "name": "lodging",
+									  "parent": "Visitor Info"
+									},
+									{
+								       "name": "parking",
+									   "parent": "Visitor Info"
+									},
+									{
+										"name": "map",
+										"parent": "Visitor Info"
+									}
+								    ]
+											
+						},
+						{
+							"name": "CIS Stories",
+							"parent": "About"
+						},
+						{
+							"name": "News",
+							"parent": "About"
+						},
+						{
+							"name": "Events",
+							"parent": "About",
+							"children": [
+											{
+												"name": "Seminar Archive",
+												"parent": "Events"
+											}
+										]
+						}
+					]
+      },
+	  {
+        "name": "Under-Graduate",
+        "parent": "CS HOME PAGE",
+		"children": [
+					{
+						"name": "Degree Overview",
+						"parent": "Under-Graduate",
+						"children": [
+									{ 
+										"name": "BA Applied Computer Science",
+										"parent": "Degree Overview"
+									},
+									{ 
+										"name": "BS Computer Science",
+										"parent": "Degree Overview"
+									},
+									{ 
+										"name": "BS: Biocomputing Pre-Med Concentration",
+										"parent": "Degree Overview"
+									},
+									{ 
+										"name": "Dual BS/MS",
+										"parent": "Degree Overview"
+									},
+									{ 
+										"name": "Certificate in Applied Computer Science",
+										"parent": "Degree Overview"
+									},
+									{ 
+										"name": "Computer Science Minors",
+										"parent": "Degree Overview"
+									},
+									{ 
+										"name": "Certificate in Fundamentals of Data Analytics",
+										"parent": "Degree Overview"
+									}
+									]
+					},
+					{
+					"name": "International: Sun Yat-Sen",
+					"parent": "Under-Graduate",
+					"children": [
+									{
+										"name": "Admissions & Application Process",
+										"parent": "International: Sun Yat-Sen"
+									},
+									{
+										"name": "Costs & Scholarships",
+										"parent": "International: Sun Yat-Sen"
+									}
+									
+								]
+					},
+					{
+					"name": "Special Programs",
+					"parent": "undergraduate",
+					"children": [
+								{
+									"name": "Health Professions and Prelaw Programs",
+									"parent": "Special Programs"
+								},
+								{
+									"name": "Rise",
+									"parent": "Special Programs"
+								},
+								{
+									"name": "Service Learning",
+									"parent": "Special Programs"
+								},
+								{
+									"name": "Study Abroad",
+									"parent": "Special Programs"
+								},
+								{
+									"name": "Themed Learning Communities",
+									"parent": "Special Programs"
+								}
+								]
+					},
+					{
+					"name": "Courses",
+					"parent": "Under-Graduate",
+					"children":[
+								{
+									"name": "All Courses",
+									"parent" : "Courses" 
+								},
+								{
+									"name": "Distributed Education",
+									"parent" : "Courses" 
+								}
+							   ]
+					},
+					{
+					"name": "Student Resources",
+					"parent": "Under-Graduate",
+					"children":[
+							    {
+								"name": "Advising",
+								"parent": "Student Resources"
+								},
+								{
+								"name":"Academic Support Services",
+								"parent":"Student Resources"
+								},
+								{
+								"name":"Resource Library",
+								"parent":"Student Resources"
+								},
+								{
+								"name":"Financial Aid",
+								"parent":"Student Resources"
+								},
+								{
+								"name":"Scholarships",
+								"parent":"Student Resources"
+								},
+								{
+								"name":"Campus Services",
+								"parent":"Student Resources"
+								},
+								{
+								"name":"Computing Services",
+								"parent":"Student Resources"
+								},
+								{
+								"name":"International Student Resources",
+								"parent":"Student Resources"
+								}
+							   ]
+					},
+					{
+					"name": "Get Involved",
+					"parent": "Under-Graduate",
+					"children":[
+							    {
+								"name":"Student Organizations",
+								"parent": "Get Involved"
+								},
+								{
+								"name": "Volunteer",
+								"parent": "Get Involved"
+								}
+							   ]
+					},
+					{
+					"name": "Professional & Career Services",
+					"parent": "Under-Graduate",
+					"children":[
+							    {
+								"name": "Career Overview",
+								"parent": "Professional & Career Services"
+								},
+								{
+								"name": "Internships",
+								"parent": "Professional & Career Services"
+								},
+								{
+								"name": "Student Employment",
+								"parent": "Professional & Career Services"
+								}
+							   ]
+					},
+					{
+					"name": "New Students",
+					"parent": "Under-Graduate",
+					"children":[
+							    {
+								"name": "Orientation",
+								"parent": "New Students"
+								},
+								{
+								"name": "Placement Testing",
+								"parent": "New Students"
+								},
+								{
+								"name": "New Student Resources",
+								"parent": "New Students"
+								},
+								{
+								"name": "Visit Science",
+								"parent": "New Students"
+								},
+							   ]
+					},
+					{
+					"name": "Admissions",
+					"parent": "Under-Graduate",
+					"children":[
+							    {
+								"name": "Admission Guidelines",
+								"parent": "Admissions",
+								"children":[
+											{
+											"name": "High School Students",
+											"parent": "Admission Guidelines"
+											},
+											{
+											"name": "Transfer Student Admissions",
+											"parent": "Admission Guidelines"
+											},
+											{
+											"name": "International Students",
+											"parent": "Admission Guidelines"
+											},
+											{
+											"name": "Returning Students",
+											"parent": "Admission Guidelines"
+											},
+											{
+											"name": "Certificate Students",
+											"parent": "Admission Guidelines"
+											},
+											{
+											"name": "Current IUPUI Students",
+											"parent": "Admission Guidelines"
+											}
+											]
+								},
+								{
+								"name": "Paying for College",
+								"parent": "Admissions"
+								},
+								{
+								"name": "Student Housing",
+								"parent": "Admissions"
+								},
+								{
+								"name": "Campus Life",
+								"parent": "Admissions"
+								},
+								{
+								"name": "Important Deadlines",
+								"parent": "Admissions"
+								},
+								{
+								"name": "Schedule a Visit",
+								"parent": "Admissions"
+								},
+								{
+								"name": "Apply Now",
+								"parent": "Admissions"
+								}
+							   ]
+								
+					}
+					]
+      },
+	  {
+        "name": "Graduate",
+        "parent": "CS HOME PAGE",
+		"children": [
+					{
+					 "name": "Degree Overview",
+					 "parent": "Graduate",
+					 "children": [
+								 { 
+								 "name": "M.S Program",
+								 "parent": "Degree Overview",
+								 "children": [
+											 {
+											 "name": "Research Option",
+											 "parent": "M.S Program"
+											 },
+											  {
+											 "name": "Applied Option",
+											 "parent": "M.S Program"
+											 }
+											 ]
+								 },
+								 { 
+								 "name": "Ph.D Program",
+								 "parent": "Degree Overview"
+								 },
+								 { 
+								 "name": "Graduate Certificate",
+								 "parent": "Degree Overview",
+								 "children": [
+											 {
+												"name": "Biocomputing",
+												"parent": "Graduate Certificate"
+											 },
+											 {
+												"name": "Biometrics",
+												"parent": "Graduate Certificate"
+											 },
+											 {
+												"name": "Computer Security",
+												"parent": "Graduate Certificate"
+											 },
+											 {
+												"name": "Databases and Data Mining",
+												"parent": "Graduate Certificate"
+											 },
+											 {
+												"name": "Software Engineering",
+												"parent": "Graduate Certificate"
+											 }
+											 ]
+								 },
+								 { 
+								 "name": "Graduate Minor",
+								 "parent": "Degree Overview"
+								 }
+								 ]
+					},
+					{
+					 "name": "Admisions",
+					 "parent": "Graduate",
+					 "children":[
+								{
+								"name": "Admission Guidelines",
+								"parent": "Admissions",
+								"children": [
+									{
+									"name": "M.S. Admissions",
+									"parent": "Admission Guidelines"
+									},
+									{
+									"name": "Ph.D. Admissions",
+									"parent": "Admission Guidelines"
+									},
+									{
+									"name": "Grad Certificate Admissions",
+									"parent": "Admission Guidelines"
+									},
+									{
+									"name": "International Students",
+									"parent": "Admission Guidelines"
+									}
+								]
+								},
+								{
+								"name": "Tuition costs",
+								"parent": "Admissions"
+								},
+								{
+								"name": "Student Housing",
+								"parent": "Admissions"
+								},
+								{
+								"name": "Apply Now",
+								"parent": "Admissions"
+								}
+								]
+					},
+					{
+					 "name": "Courses",
+					 "parent": "Graduate"
+					},
+					{
+					 "name": "Ph.D and TA Graduate Students",
+					 "parent": "Graduate"
+					},
+					{
+					 "name": "Student Resources",
+					 "parent": "Graduate",
+					 "children": [
+								  {
+									"name": "Forms & Program Resources",
+									"parent": "Student Resources"
+								  },
+								  {
+									"name": "Campus & Student Services",
+									"parent": "Student Resources"
+								  },
+								  {
+									"name": "Computing Services",
+									"parent": "Student Resources"
+								  },
+								  {
+									"name": "International Student Resources",
+									"parent": "Student Resources"
+								  }
+								 ]
+					},
+					{
+					 "name": "Professional & Career Resources",
+					 "parent": "Graduate"
+					},
+					{
+					 "name": "Get Involved",
+					 "parent": "Graduate"
+					},
+					{
+					 "name": "Financial Support",
+					 "parent": "Graduate",
+					 "children": [
+								 {
+									"name": "Assistantship",
+									"parent": "Financial Support"
+								 },
+								 {
+									"name": "Scholarship & Fellowship",
+									"parent": "Financial Support"
+								 },
+								 {
+									"name": "Other Awards",
+									"parent": "Financial Support"
+								 }
+								 ]
+					}
+					]
+      },
+	  {
+        "name": "Research",
+        "parent": "CS HOME PAGE",
+		"children":[
+			{
+			"name": "Research Areas",
+			"parent": "Research",
+			"children": [
+					{
+					"name": "DDML Research Group",
+					"parent": "Research Areas"
+					},
+					{
+					"name": "Imaging & Visualization Research Group",
+					"parent": "Research Areas"
+					},
+					{
+					"name": "N/W & Security Research Group",
+					"parent": "Research Areas"
+					},
+					{
+					"name": "SEDPC Research Group",
+					"parent": "Research Areas"
+					}
+				]
+			},
+			{
+			"name": "Centers & Facilities",
+			"parent": "Research",
+			"children": [
+					{
+					"name": "Institute for MMCS",
+					"parent": "Centers & Facilities"
+					},
+					{
+					"name": "AVL",
+					"parent": "Centers & Facilities"
+					},
+					{
+					"name": "Center for VISC",
+					"parent": "Centers & Facilities"
+					}
+				]
+			},
+			{
+			 "name": "Undergraduate Research",
+			"parent": "Research"
+			}
+			]
+      },
+	  {
+        "name": "Community",
+        "parent": "CS HOME PAGE",
+		"children": [
+					{
+					"name": "Science Outreach Programs",
+					"parent": "Community",
+					"children": [
+								{
+									"name": "Computer Science Day",
+									"parent": "Science Outreach Programs"
+								},
+								{
+									"name": "For K-12 Students",
+									"parent": "Science Outreach Programs"
+								},
+								{
+									"name": "For Current K-12 Teachers",
+									"parent": "Science Outreach Programs"
+								},
+								{
+									"name": "For Future Teachers",
+									"parent": "Science Outreach Programs"
+								}
+								]
+					},
+					{
+					"name": "Giving to Computer Science",
+					"parent": "Community",
+					"children": [
+								{
+								"name": "Ways to Give",
+								"parent": "Giving to Computer Science"
+								}
+								]
+					},
+					{
+					"name": "For Alumni",
+					"parent": "Community",
+					"children": [
+								{
+								"name": "Alumni Spotlight",
+								"parent": "For Alumni"
+								},
+								{
+								"name": "Alumni news",
+								"parent": "For Alumni"
+								}
+								]
+					},
+					{
+					"name": "Events Calender",
+					"parent": "Community"
+					},
+					{
+					"name": "News Center",
+					"parent": "Community"
+					}
+					]
+      },
+	  {
+        "name": "People",
+        "parent": "CS HOME PAGE",
+		"children":[
+					{
+					"name" : "Faculty",
+					"parent" : "People"
+					},
+					{
+					"name" : "Affiliated Faculty",
+					"parent" : "People"
+					},
+					{
+					"name" : "Staff",
+					"parent" : "People"
+					},
+					{
+					"name" : "PhD & TA Graduate Students",
+					"parent" : "People"
+					},
+					{
+					"name" : "Contact Us",
+					"parent" : "People"
+					}
+				]
+      },
+	  {
+        "name": "News & Research",
+        "parent": "CS HOME PAGE"
+      },
+	  {
+        "name": "Computing Industry News",
+        "parent": "CS HOME PAGE"
+      },
+	  {
+        "name": "Events & Seminars",
+        "parent": "CS HOME PAGE"
+      }
+    ]
+  }
+];
+
+
+//Declaring Margins, Width and Height of the tree
+var diameter = 600;
+var margin = {top: 20, right: 120, bottom: 20, left: 120},
+	width = 1000,
+	height = 1150;
+	
+var transition_time = 500,root_node,i =0;
+
+//creating the tree layout
+var tree = d3.layout.tree()
+	.size([360,diameter])
+	.separation(function(a, b) { return (a.parent == b.parent ? 1 : 10) / a.depth; });
+
+//for zoom function
+var zoom = d3.behavior.zoom()
+    .scaleExtent([1, 10])
+    .on("zoom", zoom_fn);
+
+//creating the node link between the nodes
+var node_link = d3.svg.diagonal.radial()
+	.projection(function(d) { return [d.y/1.5, d.x / 180 * Math.PI]; });
+
+
+var svg_area = d3.select("body").append("svg")
+	.attr("width", width + margin.right + margin.left)
+	.attr("height", height + margin.top + margin.bottom)
+	.style("background-color","#c6ecf2")
+	.append("g")
+    .attr("transform", "translate(" + diameter + "," + diameter + ")")
+	.call(zoom);
+
+	
+//circles for various levels of depths of the tree
+
+	svg_area.append("circle")
+	.attr("r",480)
+	.style("fill","none")
+	.style("stroke","green")
+	.style("stroke-dasharray","5,5");
+	
+	svg_area.append("circle")
+	.attr("r",360)
+	.style("fill","none")
+	.style("stroke","green")
+	.style("stroke-dasharray","5,5");
+	
+	svg_area.append("circle")
+	.attr("r",240)
+	.style("fill","none")
+	.style("stroke","green")
+	.style("stroke-dasharray","5,5");
+	
+	svg_area.append("circle")
+	.attr("r",120)
+	.style("fill","none")
+	.style("stroke","green")
+	.style("stroke-dasharray","5,5");
+	
+root_node = treeData[0];
+
+//setting the intial transition of the tree
+root_node.x0 = height /2;
+root_node.y0 = 0;
+  
+construct_subtree(root_node);
+
+
+
+// function to build the tree which is recursively called until the tree is completely built
+function construct_subtree(parent_node) {
+
+  // constructing Tree Layout
+  var nodes_list = tree.nodes(root_node),
+	  links = tree.links(nodes_list);
+
+	//depth of each level
+  nodes_list.forEach(function(d) { d.y = d.depth * 180; });
+
+  // node creation
+  var node = svg_area.selectAll("g.node")
+	  .data(nodes_list, function(d) { return d.id || (d.id = ++i); });
+
+  // Appending new child nodes
+  var node_append = node.enter().append("g")
+	  .attr("class", "node")
+	  .on("click", click)
+	  .on("mouseover", mouse_over)
+	  .on("mouseout",mouse_out);
+
+//Appending circle representation to the new nodes
+  node_append.append("circle")
+	  .attr("r", 4)
+	  .style("fill", function(d) { return d._children ? "pink" : "#c6ecf2"; });
+
+  node_append.append("text")
+	  .attr("dy", "0.5em")
+	  .attr("dx", 10)
+	  .attr("text-anchor", "start")
+	  .style("fill-opacity", 10)
+	  .text(function(d) { return d.name; });
+
+// shrinking of the nodes.
+  var node_shrink = node.exit().transition()
+	  .duration(transition_time)
+	  .remove();
+
+  node_shrink.select("circle")
+	  .attr("r",4);
+
+  node_shrink.select("text")
+	  .style("fill-opacity", 1);
+	  
+  // transition of node position update after animations(node expansion)
+  var node_transition = node.transition()
+	  .duration(transition_time)
+	  .attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + (d.y/1.5)+ ")";});
+
+  node_transition.select("circle")
+	  .attr("r", 4)
+	  .style("fill", function(d) { return d._children ? "pink" : "#c6ecf2"; });
+
+  node_transition.select("text")
+	  .style("fill-opacity", 1)
+	  .attr("transform", function(d) { return d.x < 180 ? "translate(0)" : "rotate(180)translate(-" + (d.name.length + 50)  + ")"; });
+
+
+  // node link connectors updating
+  var connectors = svg_area.selectAll("path.link")
+	  .data(links, function(d) { return d.target.id; });
+
+	  
+  // link connectors removal for shrinking of the nodes
+  connectors.exit().transition()
+	  .attr("d", function(d) {
+		var o = {x: parent_node.x, y: parent_node.y};
+		return node_link({source: o, target: o});
+	  })
+	  .duration(transition_time)
+	  .remove();
+	  
+  // link connectors update for expansion of the nodes
+  connectors.enter().insert("path", "g")
+	  .attr("class", "link")
+	  .attr("d", function(d) {
+		var o = {x: parent_node.x0, y: parent_node.y0};
+		return node_link({source: o, target: o});
+	  });
+
+  // Transition links to their new position.
+  connectors.transition()
+	  .duration(transition_time)
+	  .attr("d", node_link);
+
+// saving the old positions
+  nodes_list.forEach(function(d) {
+	d.x0 = d.x;
+	d.y0 = d.y;
+  });
+}
+
+// click functionality for expansion and shrinking
+function click(d) {
+  if (d.children) {
+	d._children = d.children;
+	d.children = null;
+if(d == root_node)
+	{
+	d3.select(this).select("text")
+		.attr("transform","rotate(0)");
+	}
+  } else {
+	d.children = d._children;
+	d._children = null;
+  }
+
+	
+  construct_subtree(d);
+}
+
+//mouse over function for highlighting
+function mouse_over(d){
+d3.select(this).select("text").transition()
+        .style("fill", "#2D661C")
+        .style("stroke", "#215411")
+        .style("stroke-width", ".5px")
+        .style("font", "10px sans-serif");
+    d3.select(this).select("circle").transition()
+        .attr("r", 10)
+        .style("stroke", "#ccc");
+}
+
+//mouse out for de-highlighting
+function mouse_out(d){
+	d3.select(this).select("text").transition()
+		.style("stroke", "none")
+		.style("fill","black")
+		.style("font","8px sans-serif");
+    d3.select(this).select("circle").transition()
+        .attr("r", 4)
+		.style("stroke", "#BF3F3F");
+}
+
+//zoom functionality
+function zoom_fn() {
+  svg_area.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
+
+</script>
+	
+  </body>
+</html>
